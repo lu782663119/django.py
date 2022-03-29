@@ -86,6 +86,14 @@
             for(let i = 0; i < anchors.length; ++i){
                 anchors[i].addEventListener('click',(evt) =>{
                     evt.preventDefault()
+                    let url = evt.target.href
+                    fetch(url).then(resp => resp.json()).then(json => {
+                        if (json.code === 20000){
+                            let strong = evt.target.nextElementSilbling
+                            strong.textContent = json.count
+                            }else{
+                            alert(json.Mesg)}
+                        })
                 })
             }
         </script>
