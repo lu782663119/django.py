@@ -89,11 +89,12 @@
                     let url = evt.target.href
                     fetch(url).then(resp => resp.json()).then(json => {
                         if (json.code === 20000){
-                            let strong = evt.target.nextElementSilbling
+                            let strong = evt.target.nextElementSibling
                             strong.textContent = json.count
-                            }else{
-                            alert(json.Mesg)}
-                        })
+                        }else{
+                            alert(json.Mesg)
+                        }
+                    })
                 })
             }
         </script>
