@@ -81,7 +81,7 @@ DATABASES = {
         'HOST': '120.25.222.247',
         'PORT': 3306,
         'USER': 'fxc',
-        'PASSWORD': 'Fxcsb123',
+        'PASSWORD': 'Fxcsb',
         'CHARSET': 'utf8',
         'TIME_ZONE': 'Asia/Chongqing',
     }
