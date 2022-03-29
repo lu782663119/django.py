@@ -82,7 +82,7 @@
         <a href="/">返回首页</a>
         <script>
 
-            let anchors = document.querySelectorALL('.comment>a')
+            let anchors = document.querySelectorAll('.comment>a')
             for(let i = 0; i < anchors.length; ++i){
                 anchors[i].addEventListener('click',(evt) =>{
                     evt.preventDefault()
