@@ -81,12 +81,16 @@
         {%endfor%}
         <a href="/">返回首页</a>
         <script>
-
+            //通过document里面的querySelectorAll方法获取页面函数
             let anchors = document.querySelectorAll('.comment>a')
+            //通过for循环读取a标签
             for(let i = 0; i < anchors.length; ++i){
+                //监听鼠标点击事件，阻止默认事件的触发
                 anchors[i].addEventListener('click',(evt) =>{
                     evt.preventDefault()
+                    //获取当前位置的标签URL
                     let url = evt.target.href
+                    //获取下一个标签，并将相应数据改写
                     fetch(url).then(resp => resp.json()).then(json => {
                         if (json.code === 20000){
                             let strong = evt.target.nextElementSibling
