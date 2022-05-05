@@ -48,3 +48,7 @@ def praise_or_criticize(request: HttpRequest):    # 好评点赞刷新代码
 def login(request: HttpRequest):
     return render(request, 'login.html')
 
+
+def register(request: HttpRequest):
+    return render(request, 'register.html')
+
