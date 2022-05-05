@@ -45,6 +45,10 @@ class Teacher(models.Model):
         db_table = 'tb_teacher'
         verbose_name = '教师'
         verbose_name_plural = '教师'
+
+
+
+
 class User(models.Model):
     """用户"""
     no = models.AutoField(primary_key=True, verbose_name='编号')
