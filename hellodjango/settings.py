@@ -78,10 +78,10 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'vote',
-        'HOST': '120.25.222.248',
+        'HOST': '120.25.222.247',
         'PORT': 3306,
         'USER': 'fxc',
-        'PASSWORD': 'Fxcsb',
+        'PASSWORD': 'Fxcsb123',
         'CHARSET': 'utf8',
         'TIME_ZONE': 'Asia/Chongqing',
     }
