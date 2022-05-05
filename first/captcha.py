@@ -42,12 +42,15 @@ class Captcha:
         self._color = color if color else random_color(0, 200, random.randint(220, 255))
 
         self._width, self._height = width, height
+
     @classmethod
+
     def instance(cls, width=200, height=75):
         """用于获取Captcha对象类的方法"""
         prop_name = f'_instance_{width}_{height}'
         if not hasattr(cls, prop_name):
             setattr(cls, prop_name, cls(width, height))
         return getattr(cls, prop_name)
-
+    def _background(self):
+        """绘制背景"""
 
