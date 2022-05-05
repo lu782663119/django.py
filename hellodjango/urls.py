@@ -16,7 +16,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 
-from first.views import show_subjects, show_teachers, praise_or_criticize
+from first.views import show_subjects, show_teachers, praise_or_criticize, login
 
 urlpatterns = [
  path('admin/', admin.site.urls),
@@ -24,4 +24,5 @@ urlpatterns = [
  path('teachers/', show_teachers),
  path('praise/', praise_or_criticize),
  path('criticize/', praise_or_criticize),
+ path('login/', login),
 ]
