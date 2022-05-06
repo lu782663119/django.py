@@ -58,7 +58,7 @@
                 <div class="input">
                     <label>验证码：</label>
                     <input type="text" name="captcha">
-                    <img src="/captcha/" alt="" width="150" height="40">
+                    <img id="code" src="/captcha/" alt="" width="150" height="40">
                 </div>
             </fieldset>
             <div class="button">
@@ -71,5 +71,11 @@
             <a href="/login/">返回登录</a>
         </div>
     </div>
+    <script>
+        let codeImage = document.querySelector('#code')
+        codeImage.addEventListener('click', (evt) =>{
+            evt.target.src = '/captcha/?'+ Math.random()
+            })
+    </script>
 </body>
 </html>
