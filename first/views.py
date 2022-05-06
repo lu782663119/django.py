@@ -64,7 +64,7 @@ def login(request: HttpRequest):   # 根据不同得请求方法来执行渲染�
         password = request.POST.get('password')
         if username and password:
             password = gen_md5_digest(password)
-            user = User.object.filter(username=username, password=password).first()
+            user = User.objects.filter(username=username, password=password).first()
             if user:
                 pass
             else:
