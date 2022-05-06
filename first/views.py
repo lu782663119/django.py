@@ -5,6 +5,7 @@ from random import sample
 from django.http import HttpRequest, HttpResponse
 from django.shortcuts import render
 # 视图函数（接收来自浏览器的用户请求，然后返回一个）
+from first.captcha import Captcha
 from first.models import Subject, Teacher
 
 
@@ -43,6 +44,11 @@ def praise_or_criticize(request: HttpRequest):    # 好评点赞刷新代码
         return redirect(f'/teachers/?sno={sno}')  # 返回当前页面
     except (ValueError, Teacher.DoesNotExist):
         return redirect('/')
+
+def get_captcha(request: HttpRequest):
+    image_data = Captcha.instance().generate('10az')
+    return HttpResponse(image_data, content_type='image/png')
+
 
 
 def login(request: HttpRequest):
