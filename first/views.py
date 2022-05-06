@@ -6,8 +6,8 @@ from django.http import HttpRequest, HttpResponse
 from django.shortcuts import render
 # 视图函数（接收来自浏览器的用户请求，然后返回一个）
 from first.captcha import Captcha
-from first.models import Subject, Teacher
-from first.utils import gen_random_code
+from first.models import Subject, Teacher, User
+from first.utils import gen_random_code, gen_md5_digest
 
 
 def show_subjects(request:HttpRequest):
@@ -57,10 +57,25 @@ def get_captcha(request: HttpRequest):
     return HttpResponse(image_data, content_type='image/png')
 
 
-def login(request: HttpRequest):
-    return render(request, 'login.html')
+def login(request: HttpRequest):   # 根据不同得请求方法来执行渲染还是登录
+    hint = ''
+    if request.method == 'POST':
+        username = request.POST.get('username')  # 获取用户名
+        password = request.POST.get('password')
+        if username and password:
+            password = gen_md5_digest(password)
+            user = User.object.filter(username=username, password=password).first()
+            if user:
+                pass
+            else:
+                hint = '用户名或密码错误'
+        else:
+            hint = '请输入有效的用户名和密码'
+    return render(request, 'login.html', {'hint': hint})
 
 
-def register(request: HttpRequest):
+def register(request: HttpRequest):  # 根据不同得请求方法来执行渲染还是注册
+    if request.method == 'POST':
+        pass
     return render(request, 'register.html')
 
