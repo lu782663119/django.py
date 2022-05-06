@@ -7,6 +7,7 @@ from django.shortcuts import render
 # 视图函数（接收来自浏览器的用户请求，然后返回一个）
 from first.captcha import Captcha
 from first.models import Subject, Teacher
+from first.utils import gen_random_code
 
 
 def show_subjects(request:HttpRequest):
@@ -31,6 +32,9 @@ def show_teachers(request:HttpRequest) -> HttpResponse:
     except (ValueError, Subject.DoesNotExist):
         return redirect('/')
 
+
+
+
 def praise_or_criticize(request: HttpRequest):    # 好评点赞刷新代码
     try:
         sno = request.GET.get('sno')  # 获取学科编号
@@ -45,10 +49,12 @@ def praise_or_criticize(request: HttpRequest):    # 好评点赞刷新代码
     except (ValueError, Teacher.DoesNotExist):
         return redirect('/')
 
-def get_captcha(request: HttpRequest):
-    image_data = Captcha.instance().generate('10az')
-    return HttpResponse(image_data, content_type='image/png')
 
+
+def get_captcha(request: HttpRequest):
+    code = gen_random_code()
+    image_data = Captcha.instance().generate(code)
+    return HttpResponse(image_data, content_type='image/png')
 
 
 def login(request: HttpRequest):
