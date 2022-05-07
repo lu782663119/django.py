@@ -66,7 +66,7 @@ def login(request: HttpRequest):   # 根据不同得请求方法来执行渲染�
             password = gen_md5_digest(password)
             user = User.objects.filter(username=username, password=password).first()
             if user:
-                request.session['userid'] = user.no
+                request.session['userid'] = user.no     # 将用户ID存储到COOKIE
                 request.session['username'] = user.username
                 return redirect('/')
             else:
