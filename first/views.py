@@ -76,17 +76,12 @@ def login(request: HttpRequest):   # 根据不同得请求方法来执行渲染�
     return render(request, 'login.html', {'hint': hint})  # 传输一个错误信息
 
 
-
-def logout(request: HttpRequest):
-    request.session.flush()
-    return render('/')
-
-
-
-
 def register(request: HttpRequest):  # 根据不同得请求方法来执行渲染还是注册
     if request.method == 'POST':
         pass
     return render(request, 'register.html')
 
 
+def logout(request: HttpRequest):
+    request.session.flush()
+    return render('/')
