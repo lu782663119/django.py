@@ -66,12 +66,14 @@ def login(request: HttpRequest):   # 根据不同得请求方法来执行渲染�
             password = gen_md5_digest(password)
             user = User.objects.filter(username=username, password=password).first()
             if user:
-                pass
+                request.session['userid'] = user.no
+                request.session['username'] = user.username
+                return redirect('/')
             else:
                 hint = '用户名或密码错误'
         else:
             hint = '请输入有效的用户名和密码'
-    return render(request, 'login.html', {'hint': hint})
+    return render(request, 'login.html', {'hint': hint})  # 传输一个错误信息
 
 
 def register(request: HttpRequest):  # 根据不同得请求方法来执行渲染还是注册
