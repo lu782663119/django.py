@@ -52,7 +52,8 @@ def praise_or_criticize(request: HttpRequest):    # 好评点赞刷新代码
 
 
 def get_captcha(request: HttpRequest):
-    code = gen_random_code()
+    captcha_txt = code = gen_random_code()
+    request.session['captcha'] = captcha_txt
     image_data = Captcha.instance().generate(code)
     return HttpResponse(image_data, content_type='image/png')
 
@@ -60,19 +61,24 @@ def get_captcha(request: HttpRequest):
 def login(request: HttpRequest):   # 根据不同得请求方法来执行渲染还是登录
     hint = ''
     if request.method == 'POST':
-        username = request.POST.get('username')  # 获取用户名
-        password = request.POST.get('password')  # 获取密码
-        if username and password:
-            password = gen_md5_digest(password)
-            user = User.objects.filter(username=username, password=password).first()
-            if user:
-                request.session['userid'] = user.no     # 将用户ID存储到COOKIE
-                request.session['username'] = user.username
-                return redirect('/')
+        captcha_from_serv = request.session.get('captcha', '0')
+        captcha_from_user = request.session.POST('captcha', '1').lower()
+        if captcha_from_serv == captcha_from_user:
+            username = request.POST.get('username')  # 获取用户名
+            password = request.POST.get('password')  # 获取密码
+            if username and password:
+                password = gen_md5_digest(password)
+                user = User.objects.filter(username=username, password=password).first()
+                if user:
+                    request.session['userid'] = user.no     # 将用户ID存储到COOKIE
+                    request.session['username'] = user.username
+                    return redirect('/')
+                else:
+                    hint = '用户名或密码错误'
             else:
-                hint = '用户名或密码错误'
+                hint = '请输入有效的用户名和密码'
         else:
-            hint = '请输入有效的用户名和密码'
+            hint = '验证码错误'
     return render(request, 'login.html', {'hint': hint})  # 传输一个错误信息
 
 
