@@ -84,4 +84,4 @@ def register(request: HttpRequest):  # 根据不同得请求方法来执行渲�
 
 def logout(request: HttpRequest):
     request.session.flush()
-    return render('/')
+    return redirect('/')
