@@ -37,7 +37,7 @@ def show_teachers(request:HttpRequest) -> HttpResponse:
 
 
 def praise_or_criticize(request: HttpRequest):    # 好评点赞刷新代码
-    if request.session.get ('Userid'):
+    if request.session.get('userid'):
         try:
             sno = request.GET.get('sno')  # 获取学科编号
             tno = request.GET.get('tno')  # 获取老师编号
@@ -65,7 +65,7 @@ def login(request: HttpRequest):   # 根据不同得请求方法来执行渲染�
     hint = ''
     if request.method == 'POST':
         captcha_from_serv = request.session.get('captcha', '0')
-        captcha_from_user = request.session.POST('captcha', '1').lower()
+        captcha_from_user = request.POST.get('captcha', '1').lower()
         if captcha_from_serv == captcha_from_user:
             username = request.POST.get('username')  # 获取用户名
             password = request.POST.get('password')  # 获取密码
