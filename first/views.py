@@ -39,6 +39,7 @@ def show_teachers(request:HttpRequest) -> HttpResponse:
 def praise_or_criticize(request: HttpRequest):    # 好评点赞刷新代码
     if request.session.get('userid'):
         try:
+            sno = request.GET.get('sno') # 获取学科编号
             tno = request.GET.get('tno')  # 获取老师编号
             teacher = Teacher.objects.get(no=tno)   # 获取老师的编号
             if request.path.startswith('/praise/'):

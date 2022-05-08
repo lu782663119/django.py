@@ -73,30 +73,31 @@
                     {{ teacher.intro }}
                 </div>
                 <div class="comment">
-                    <a href="/praise/?sno={{subject.no}}&tno={{teacher.no}}">好评</a>&nbsp;&nbsp;(<strong>{{teacher.good_count}}</strong>)
-                    <a href="/criticize/?sno={{subject.no}}&tno={{teacher.no}}">差评</a>&nbsp;&nbsp;(<strong>{{teacher.bad_count}}</strong>)
+                    <a href="/praise/?tno={{teacher.no}}">好评</a>&nbsp;&nbsp;
+                    (<strong>{{teacher.good_count}}</strong>)
+                    &nbsp;&nbsp;&nbsp;&nbsp;
+                    <a href="/criticize/?tno={{teacher.no}}">差评</a>&nbsp;&nbsp;
+                    (<strong>{{teacher.bad_count}}</strong>)
                 </div>
             </div>
         </div>
         {%endfor%}
         <a href="/">返回首页</a>
     </div>
-    <script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.min.js"> </script> # 使用AJAX进行局部异步请求刷新
+    <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.5.1/jquery.min.js"> </script>
     <script>
-        $(()=>{
-            $('.comment>a').on('click', (evt) =>{
+        $(() => {
+             $('.comment>a').on('click', (evt) => {
                 evt.preventDefault()
                 let url = $(evt.target).attr('href')
-            $.getJSON(url,(json)=>{
-                if (josn.code == 20000){
-                    let span = $(evt.target).next()
-                    span.text(josn.count)
-                }
-            }
-            )
-            })
+                $.getJSON(url, (json) => {
+                    if (json.code == 20000) {
+                        let span = $(evt.target).next()
+                         span.text(json.count)
+                    }
+                })
+             })
         })
     </script>
-
 </body>
 </html>
