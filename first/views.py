@@ -1,5 +1,6 @@
 from itertools import count
 from django.shortcuts import render, redirect
+from urllib.parse import unquote
 
 # Create your views here.
 from random import sample
@@ -52,7 +53,9 @@ def praise_or_criticize(request: HttpRequest):    # 好评点赞刷新代码
             data = {'code':20000, 'mesg': '投票成功', 'count': count}  # 返回当前页面
         except (ValueError, Teacher.DoesNotExist):
             data = {'code':20001, 'mesg': '投票失败'}
-        return JsonResponse(data)
+    else:
+        data = {'code': 20002, 'mesg': '请先登录再投票'}
+    return JsonResponse(data)
 
 
 
@@ -64,8 +67,11 @@ def get_captcha(request: HttpRequest):
 
 
 def login(request: HttpRequest):   # 根据不同得请求方法来执行渲染还是登录
-    hint = ''
+    hint, backurl = '', request.GET.get('backurl', '/')
     if request.method == 'POST':
+        backurl = request.POST.get('backurl', '/')  # 获取表单返回的URL链接
+        if backurl != '/':
+            backurl = unquote(backurl)   # 如果返回的表单URL不为空 则跳转回之前的页面
         captcha_from_serv = request.session.get('captcha', '0')
         captcha_from_user = request.POST.get('captcha', '1').lower()
         if captcha_from_serv == captcha_from_user:
@@ -84,7 +90,7 @@ def login(request: HttpRequest):   # 根据不同得请求方法来执行渲染�
                 hint = '请输入有效的用户名和密码'
         else:
             hint = '验证码错误'
-    return render(request, 'login.html', {'hint': hint})  # 传输一个错误信息
+    return render(request, 'login.html', {'hint': hint, 'backurl': backurl}, ) # 传输一个错误信息
 
 
 def register(request: HttpRequest):  # 根据不同得请求方法来执行渲染还是注册

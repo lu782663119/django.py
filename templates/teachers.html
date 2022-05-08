@@ -86,18 +86,22 @@
     </div>
     <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.5.1/jquery.min.js"> </script>
     <script>
-        $(() => {
-             $('.comment>a').on('click', (evt) => {
-                evt.preventDefault()
-                let url = $(evt.target).attr('href')
-                $.getJSON(url, (json) => {
-                    if (json.code == 20000) {
-                        let span = $(evt.target).next()
-                         span.text(json.count)
+        $('.comment>a').on('click', (evt) => {
+            evt.preventDefault()
+            let url = $(evt.target).attr('href')
+            $.getJSON(url, (json) => {
+                if (json.code === 20000) {
+                    $(evt.target).next().text(json.count)
+                } else {
+                    alert(json.mesg)
+                    if (json.code === 20002) {
+                        // 把字符串处理成百分号编码
+                        let url = encodeURIComponent(location.pathname + location.search)
+                        location.href = '/login/?backurl=' + url
                     }
-                })
-             })
-        })
+                }
+            })
+        }
     </script>
 </body>
 </html>
