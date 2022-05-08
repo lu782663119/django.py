@@ -94,9 +94,9 @@ def login(request: HttpRequest):   # 根据不同得请求方法来执行渲染�
 
 
 def register(request: HttpRequest):  # 根据不同得请求方法来执行渲染还是注册
+    hint = ''
     if request.method == 'POST':
-        hint = ''
-        # 获取表单上的用户名、密码、手机号
+       # 获取表单上的用户名、密码、手机号
         agreement = request.POST.get('agreement')
         if agreement:
             password = request.POST.get('password')
@@ -107,6 +107,7 @@ def register(request: HttpRequest):  # 根据不同得请求方法来执行渲�
                     password = gen_md5_digest(password)
                     user = User.objects.filter(username=username, password=password, tal=tal)
                     user.save()
+                    return redirect('/login/')
                 except DatabaseError:
                     hint = '该用户已被注册'
             else:
