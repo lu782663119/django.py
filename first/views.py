@@ -1,8 +1,9 @@
+from itertools import count
 from django.shortcuts import render, redirect
 
 # Create your views here.
 from random import sample
-from django.http import HttpRequest, HttpResponse
+from django.http import HttpRequest, HttpResponse, JsonResponse
 from django.shortcuts import render
 # 视图函数（接收来自浏览器的用户请求，然后返回一个）
 from first.captcha import Captcha
@@ -36,18 +37,20 @@ def show_teachers(request:HttpRequest) -> HttpResponse:
 
 
 def praise_or_criticize(request: HttpRequest):    # 好评点赞刷新代码
-    try:
-        sno = request.GET.get('sno')  # 获取学科编号
-        tno = request.GET.get('tno')  # 获取老师编号
-        teacher = Teacher.objects.get(no=tno)   # 获取老师的编号
-        if request.path.startswith('/praise/'):
-            teacher.good_count += 1
-        else:
-            teacher.bad_count += 1
-        teacher.save()
-        return redirect(f'/teachers/?sno={sno}')  # 返回当前页面
-    except (ValueError, Teacher.DoesNotExist):
-        return redirect('/')
+    if request.session.get ('Userid'):
+        try:
+            sno = request.GET.get('sno')  # 获取学科编号
+            tno = request.GET.get('tno')  # 获取老师编号
+            teacher = Teacher.objects.get(no=tno)   # 获取老师的编号
+            if request.path.startswith('/praise/'):
+                teacher.good_count += 1
+            else:
+                teacher.bad_count += 1
+            teacher.save()
+            data = {'code':20000, 'mesg': '投票成功', 'count': count}  # 返回当前页面
+        except (ValueError, Teacher.DoesNotExist):
+            data = {'code':20001, 'mesg': '投票失败'}
+            return JsonResponse(data)
 
 
 
