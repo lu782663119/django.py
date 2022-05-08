@@ -87,6 +87,7 @@
     <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.5.1/jquery.min.js"> </script>
     <script>
         $('.comment>a').on('click', (evt) => {
+            // 获取标签默认绑定事件，并屏蔽
             evt.preventDefault()
             let url = $(evt.target).attr('href')
             $.getJSON(url, (json) => {
