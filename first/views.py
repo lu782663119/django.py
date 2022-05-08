@@ -39,18 +39,19 @@ def show_teachers(request:HttpRequest) -> HttpResponse:
 def praise_or_criticize(request: HttpRequest):    # 好评点赞刷新代码
     if request.session.get('userid'):
         try:
-            sno = request.GET.get('sno')  # 获取学科编号
             tno = request.GET.get('tno')  # 获取老师编号
             teacher = Teacher.objects.get(no=tno)   # 获取老师的编号
             if request.path.startswith('/praise/'):
                 teacher.good_count += 1
+                count = teacher.good_count
             else:
                 teacher.bad_count += 1
+                count = teacher.bad_count
             teacher.save()
             data = {'code':20000, 'mesg': '投票成功', 'count': count}  # 返回当前页面
         except (ValueError, Teacher.DoesNotExist):
             data = {'code':20001, 'mesg': '投票失败'}
-            return JsonResponse(data)
+        return JsonResponse(data)
 
 
 
