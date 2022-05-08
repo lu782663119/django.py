@@ -1,7 +1,7 @@
 from itertools import count
 from django.shortcuts import render, redirect
 from urllib.parse import unquote
-
+from django.db import DatabaseError
 # Create your views here.
 from random import sample
 from django.http import HttpRequest, HttpResponse, JsonResponse
@@ -95,8 +95,25 @@ def login(request: HttpRequest):   # 根据不同得请求方法来执行渲染�
 
 def register(request: HttpRequest):  # 根据不同得请求方法来执行渲染还是注册
     if request.method == 'POST':
-        pass
-    return render(request, 'register.html')
+        hint = ''
+        # 获取表单上的用户名、密码、手机号
+        agreement = request.POST.get('agreement')
+        if agreement:
+            password = request.POST.get('password')
+            username = request.POST.get('username')
+            tal = request.POST.get('tal')
+            if password and username and tal:
+                try:
+                    password = gen_md5_digest(password)
+                    user = User.objects.filter(username=username, password=password, tal=tal)
+                    user.save()
+                except DatabaseError:
+                    hint = '该用户已被注册'
+            else:
+                hint = '请输入注册信息'
+        else:
+            hint = '请勾选同意网站用户协议及隐私政策'
+    return render(request, 'register.html', {'hint': hint})
 
 
 def logout(request: HttpRequest):

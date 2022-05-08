@@ -37,6 +37,10 @@
             text-align: left;
             margin: 10px 10px;
         }
+        .hint {
+            color: red;
+            font-size: 14px
+        }
     </style>
 </head>
 <body>
@@ -45,6 +49,7 @@
         <hr>
         <form action="" method="post">
             {% csrf_token %}
+            <p class="hint">{{hint}}</p>
             <fieldset>
                 <legend>用户信息</legend>
                 <div class="input">
@@ -69,7 +74,7 @@
                 <input type="submit" value="注册">
                 <input type="reset" value="重置">
                 <div>
-                    <input type="checkbox">
+                    <input type="checkbox" name="agreement">
                     我已经同意网站<a href="">用户协议及隐私政策</a>
                 </div>
             </div>
