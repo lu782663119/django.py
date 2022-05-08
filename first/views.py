@@ -101,11 +101,11 @@ def register(request: HttpRequest):  # 根据不同得请求方法来执行渲�
         if agreement:
             password = request.POST.get('password')
             username = request.POST.get('username')
-            tal = request.POST.get('tal')
-            if password and username and tal:
+            tel = request.POST.get('tel')
+            if password and username and tel:
                 try:
                     password = gen_md5_digest(password)
-                    user = User.objects.filter(username=username, password=password, tal=tal)
+                    user = User(username=username, password=password, tel=tel)
                     user.save()
                     return redirect('/login/')
                 except DatabaseError:
